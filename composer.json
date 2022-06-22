@@ -1,0 +1,24 @@
+{
+    "name": "bboxlab/moselle",
+    "description": "SDK for BT open APIs",
+    "keywords": ["sdk", "open-api", "open api", "api"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gaétan Darquié",
+            "email": "gdarquie@bouyguestelecom.fr"
+        },
+        {
+            "name": "François Gette",
+            "email": "fgette@bouyguestelecom.fr"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": { "Bboxlab\\Moselle\\": "" }
+    },
+    "minimum-stability": "dev"
+}

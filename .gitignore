@@ -1,0 +1,7 @@
+# Jetbrains
+.idea/*
+
+# php
+/vendor/
+composer.lock
+phpunit.xml
