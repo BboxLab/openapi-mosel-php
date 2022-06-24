@@ -18,7 +18,9 @@
         "php": ">=7.4"
     },
     "autoload": {
-        "psr-4": { "Bboxlab\\Moselle\\": "" }
+        "psr-4": {
+            "Bboxlab\\Moselle\\": "src/"
+        }
     },
     "minimum-stability": "dev"
 }
