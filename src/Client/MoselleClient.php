@@ -3,53 +3,26 @@
 namespace Bboxlab\Moselle\Client;
 
 use Bboxlab\Moselle\Exception\BouyguesHttpBadRequestException;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class MoselleClient
+class MoselleClient implements HttpClientInterface
 {
-    /**
-     * @param HttpClientInterface $client
-     * @param string $method
-     * @param string $url
-     * @param array $options
-     * @return array
-     * @throws BouyguesHttpBadRequestException
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
-    public function request(HttpClientInterface $client, string $method, string $url, array $options = []): array
-    {
-        $response = $client->request($method, $url, $options);
-        $code = $response->getStatusCode();
+    use DecoratorTrait;
 
-        if ($code >= 300) {
+    private HttpClientInterface $decoratedClient;
+
+    public function requestBtOpenApi(string $method, string $url, array $options = []): array
+    {
+        $response = $this->request($method, $url, $options);
+
+        if ($code = $response->getStatusCode() >= 300) {
             $this->handleBtRequestError($code, $response->toArray(false));
         }
 
         return $response->toArray();
     }
 
-    /**
-     * @param HttpClientInterface $client
-     * @param string $method
-     * @param string $url
-     * @param array $options
-     * @return string
-     * @throws BouyguesHttpBadRequestException
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
     public function getContent(HttpClientInterface $client, string $method, string $url, array $options = []): string
     {
         $response = $client->request($method, $url, $options);
@@ -64,6 +37,8 @@ final class MoselleClient
 
     /**
      * handle bt error, the bt error format is "error", "error_description", "error_parameters"
+     *
+     * @throws BouyguesHttpBadRequestException
      */
     private function handleBtRequestError(int $code, array $error = [])
     {
@@ -86,7 +61,8 @@ final class MoselleClient
         throw new BouyguesHttpBadRequestException(
             $name,
             null,
-            $code, [],
+            $code,
+            [],
             $description,
             $parameters,
             BouyguesHttpBadRequestException::BT_SOURCE
@@ -97,8 +73,7 @@ final class MoselleClient
      * For using bt api in test we need to add some headers
      * from Moselle
      *
-     * @param array $options
-     * @return array
+     * @throws BouyguesHttpBadRequestException
      */
     protected function addBouyguesTestHeaders(array $options, string $url):array
     {
