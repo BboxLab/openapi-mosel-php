@@ -1,5 +1,7 @@
 <?php
 
+namespace Bboxlab\Tests\Email;
+
 use PHPUnit\Framework\TestCase;
 use Bboxlab\Moselle\Email\EmailChecker;
 

@@ -5,16 +5,23 @@ namespace Bboxlab\Moselle\Client;
 use Bboxlab\Moselle\Exception\BouyguesHttpBadRequestException;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class MoselleClient implements HttpClientInterface
 {
     use DecoratorTrait;
 
-    private HttpClientInterface $decoratedClient;
-
+    /**
+     * @throws BouyguesHttpBadRequestException
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
     public function requestBtOpenApi(string $method, string $url, array $options = []): array
     {
-        $response = $this->request($method, $url, $options);
+        $response = $this->client->request($method, $url, $options);
 
         if ($code = $response->getStatusCode() >= 300) {
             $this->handleBtRequestError($code, $response->toArray(false));
@@ -25,7 +32,7 @@ class MoselleClient implements HttpClientInterface
 
     public function getContent(HttpClientInterface $client, string $method, string $url, array $options = []): string
     {
-        $response = $client->request($method, $url, $options);
+        $response = $this->client->request($method, $url, $options);
 
         $code = $response->getStatusCode();
         if ($code >= 300) {

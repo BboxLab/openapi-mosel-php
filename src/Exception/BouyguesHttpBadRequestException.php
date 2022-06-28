@@ -30,7 +30,7 @@ final class BouyguesHttpBadRequestException extends \Exception
         string $source = self::DEFAULT_SOURCE
     )
     {
-        parent::__construct($message, $previous, $code, $headers);
+        parent::__construct($message, $code, $previous);
         $this->setDescription($description);
         $this->setParameters($parameters);
         $this->setSource($source);
