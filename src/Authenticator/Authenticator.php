@@ -11,10 +11,13 @@ class Authenticator
 
     public function __construct(private MoselleClient $client) {}
 
-    private function postCrendentials(string $url, array $credentials): array
+    private function postCrendentials(string $url, Credentials $credentials): array
     {
         return $this->client->requestBtOpenApi('POST', $url, [
-            'auth_basic' => $credentials,
+            'auth_basic' => [
+                $credentials->getUsername(),
+                $credentials->getPassword()
+            ],
             'query' => [
                 'grant_type' => 'client_credentials'
             ]
@@ -24,17 +27,20 @@ class Authenticator
     /**
      * @throws BouyguesHttpBadRequestException
      */
-    public function authenticate(array $credentials = [], string $oauthCredentialsUrl = self::OAUTH_CREDENTIALS_URL): ?string
+    public function authenticate(string $oauthCredentialsUrl = self::OAUTH_CREDENTIALS_URL, Credentials $credentials = null, $token = null): string
     {
         // check if token is valid
-        if (!$credentials) {
-            // if there is no token or if token is not valid, post for a new token
-            try {
-                $response = $this->postCrendentials($oauthCredentialsUrl, $credentials);
-                return $response['access_token'];
-            } catch (\Exception $e) {
-                throw new BouyguesHttpBadRequestException('[Bt Authenticator] ' . $e->getMessage());
-            }
+        if ($token) {
+//            todo: complete
+//            if token is valid return token value
+        }
+
+        // if there is no token or if token is not valid, post for a new token
+        try {
+            $response = $this->postCrendentials($oauthCredentialsUrl, $credentials);
+            return $response['access_token'];
+        } catch (\Exception $e) {
+            throw new BouyguesHttpBadRequestException('[Bt Authenticator] ' . $e->getMessage());
         }
 
 //        if (!$token = $this->findToken($type, $shopUser)) {

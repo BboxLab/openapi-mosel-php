@@ -2,28 +2,31 @@
 
 namespace Bboxlab\Moselle\Email;
 
+use Bboxlab\Moselle\Authenticator\Authenticator;
+use Bboxlab\Moselle\Authenticator\Credentials;
+use Bboxlab\Moselle\BtConfig\BtConfigInterface;
 use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Exception\BouyguesHttpBadRequestException;
 
-
 final class EmailChecker
 {
-    const EMAIL_CHECK_URL = 'https://open.api.bouyguestelecom.fr/v1/customer-management/email-addresses/check';
-
     public function __invoke(
         string $emailAddress,
-        string $url = self::EMAIL_CHECK_URL
+        BtConfigInterface $btConfig,
+        Credentials $credentials,
+        $token = null
     ): array
     {
         // add content to body request
         $options['json'] = ['emailAddress' => $emailAddress];
 
         // authentication with app credentials flow: get token
+        // todo: get token, only if there is no token or if given token is not valid
         $client = new MoselleClient();
-//        $options['auth_bearer'] = (new Authenticator($client))->authenticate();
+        $options['auth_bearer'] = (new Authenticator($client))->authenticate($btConfig->getOauthAppCredentialsUrl(), $credentials, $token);
 
         // get response
-        $result = $client->requestBtOpenApi('POST', $url, $options);
+        $result = $client->requestBtOpenApi('POST', $btConfig->getEmailAddressUrl(), $options);
 
         if (isset($result['status']) && 300 <= $result['status']) {
             throw new BouyguesHttpBadRequestException($result['error']);

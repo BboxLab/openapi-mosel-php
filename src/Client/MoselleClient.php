@@ -30,7 +30,7 @@ class MoselleClient implements HttpClientInterface
         return $response->toArray();
     }
 
-    public function getContent(HttpClientInterface $client, string $method, string $url, array $options = []): string
+    public function getContent(string $method, string $url, array $options = []): string
     {
         $response = $this->client->request($method, $url, $options);
 
