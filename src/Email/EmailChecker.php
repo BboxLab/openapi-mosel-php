@@ -4,17 +4,17 @@ namespace Bboxlab\Moselle\Email;
 
 use Bboxlab\Moselle\Authenticator\Authenticator;
 use Bboxlab\Moselle\Authenticator\Credentials;
-use Bboxlab\Moselle\BtConfig\BtConfigInterface;
+use Bboxlab\Moselle\Configuration\Configuration;
 use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Exception\BouyguesHttpBadRequestException;
 
 final class EmailChecker
 {
     public function __invoke(
-        string $emailAddress,
-        BtConfigInterface $btConfig,
-        Credentials $credentials,
-        $token = null
+        string        $emailAddress,
+        Configuration $btConfig,
+        Credentials   $credentials,
+                      $token = null
     ): array
     {
         // add content to body request
