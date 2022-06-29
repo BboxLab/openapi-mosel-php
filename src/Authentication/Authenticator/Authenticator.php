@@ -48,6 +48,7 @@ class Authenticator
         $datetime = new \DateTime();
         $datetime = $datetime->format('Y-m-d H:i:s p');
         $token->setCreatedAt($datetime);
+        $token->setNew(true);
 
         // the validity of the token object is checked
         $validator = Validation::createValidatorBuilder()

@@ -13,19 +13,15 @@ class TokenVoter
     {
         $createAtDatetime = new \DateTime($createdAt);
 
-        if ($createAtDatetime->getTimestamp() + $expirationTime < (new \DateTime())->getTimestamp()) {
+        if ($createAtDatetime->getTimestamp() + $expirationTime > (new \DateTime())->getTimestamp()) {
             return true;
         }
 
         return false;
     }
 
-    public function vote(BtToken $token): bool
+    public function vote(TokenInterface $token): bool
     {
-        if(!$this->checkTokenExpirationTime($token->getExpiresIn(), $token->getCreatedAt())) {
-            return false;
-        }
-
-        return true;
+        return $this->checkTokenExpirationTime($token->getExpiresIn(), $token->getCreatedAt());
     }
 }

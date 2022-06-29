@@ -4,7 +4,7 @@ namespace Bboxlab\Moselle\Email;
 
 use Bboxlab\Moselle\Authentication\Authenticator\Authenticator;
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\BtToken;
+use Bboxlab\Moselle\Authentication\Token\TokenInterface;
 use Bboxlab\Moselle\Authentication\Token\TokenVoter;
 use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Configuration\ConfigurationInterface;
@@ -18,21 +18,24 @@ final class EmailChecker
         string $emailAddress,
         ConfigurationInterface $btConfig,
         Credentials $credentials,
-        BtToken $token = null
+        TokenInterface $token = null
     ): Response
     {
         // add content to body request
         $options['json'] = ['emailAddress' => $emailAddress];
 
+        // http client declaration
+        $client = new MoselleClient();
+
         // authentication with app credentials flow for getting token if necessary
         if (!$token || !(new TokenVoter())->vote($token)) {
-            $client = new MoselleClient();
             $token = (new Authenticator($client))->authenticate($btConfig->getOauthAppCredentialsUrl(), $credentials);
         }
 
+        // add token into headers
         $options['auth_bearer'] = $token->getAccessToken();
 
-        // get response
+        // send request and get response
         $emailResponse = $client->requestBtOpenApi('POST', $btConfig->getEmailAddressUrl(), $options);
 
         if (isset($result['status']) && 300 <= $result['status']) {

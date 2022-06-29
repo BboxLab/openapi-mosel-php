@@ -8,7 +8,7 @@ namespace Bboxlab\Moselle\Authentication\Token;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class BtToken
+class BtToken implements TokenInterface
 {
     /**
      * @Assert\NotBlank
@@ -22,6 +22,7 @@ class BtToken
     private ?string $tokenType;
     private ?int $refreshCredit;
     private ?string $scope;
+    private ?bool $new = false;
 
     /**
      * @Assert\DateTime(
@@ -124,6 +125,22 @@ class BtToken
     public function setCreatedAt(string $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isNew(): ?bool
+    {
+        return $this->new;
+    }
+
+    /**
+     * @param bool|null $new
+     */
+    public function setNew(?bool $new): void
+    {
+        $this->new = $new;
     }
 
 }
