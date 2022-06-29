@@ -16,7 +16,11 @@
     ],
     "require": {
         "php": ">=8.0",
-        "symfony/http-client": "6.2.x-dev"
+        "symfony/http-client": "6.2.x-dev",
+        "symfony/http-foundation": "6.2.x-dev",
+        "symfony/serializer": "6.2.x-dev",
+        "symfony/validator": "6.2.x-dev",
+        "doctrine/annotations": "1.14.x-dev"
     },
     "autoload": {
         "psr-4": {

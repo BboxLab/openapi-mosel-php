@@ -2,7 +2,7 @@
 
 namespace Bboxlab\Moselle\Client;
 
-use Bboxlab\Moselle\Exception\BouyguesHttpBadRequestException;
+use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -12,7 +12,7 @@ class MoselleClient implements HttpClientInterface
     use DecoratorTrait;
 
     /**
-     * @throws BouyguesHttpBadRequestException
+     * @throws BtHttpBadRequestException
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -45,7 +45,7 @@ class MoselleClient implements HttpClientInterface
     /**
      * handle bt error, the bt error format is "error", "error_description", "error_parameters"
      *
-     * @throws BouyguesHttpBadRequestException
+     * @throws BtHttpBadRequestException
      */
     private function handleBtRequestError(int $code, array $error = [])
     {
@@ -65,14 +65,14 @@ class MoselleClient implements HttpClientInterface
             $parameters = $error['error_parameters'];
         }
 
-        throw new BouyguesHttpBadRequestException(
+        throw new BtHttpBadRequestException(
             $name,
             null,
             $code,
             [],
             $description,
             $parameters,
-            BouyguesHttpBadRequestException::BT_SOURCE
+            BtHttpBadRequestException::BT_SOURCE
         );
     }
 
@@ -80,7 +80,7 @@ class MoselleClient implements HttpClientInterface
      * For using bt api in test we need to add some headers
      * from Moselle
      *
-     * @throws BouyguesHttpBadRequestException
+     * @throws BtHttpBadRequestException
      */
     protected function addBouyguesTestHeaders(array $options, string $url):array
     {
@@ -96,7 +96,7 @@ class MoselleClient implements HttpClientInterface
             } else if (str_contains($url,'ap3')){
                 $options['headers']['x-banc'] = 'ap21';
             } else {
-                throw new BouyguesHttpBadRequestException(
+                throw new BtHttpBadRequestException(
                     'No corresponding "AP" env has been found in bt url oauth test url. "AP" known env are: AP3 and AP4'
                 );
             }

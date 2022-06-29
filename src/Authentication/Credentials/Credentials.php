@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Bboxlab\Moselle\Authenticator;
+namespace Bboxlab\Moselle\Authentication\Credentials;
 
 class Credentials
 {
