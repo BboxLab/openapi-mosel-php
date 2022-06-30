@@ -38,6 +38,8 @@ final class EmailChecker
         // send request and get response
         $emailResponse = $client->requestBtOpenApi('POST', $btConfig->getEmailAddressUrl(), $options);
 
+        // todo: check email response format
+
         if (isset($result['status']) && 300 <= $result['status']) {
             throw new BtHttpBadRequestException($result['error']);
         }
