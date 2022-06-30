@@ -8,7 +8,7 @@ namespace Bboxlab\Moselle\Authentication\Token;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class BtToken implements TokenInterface
+class Token implements TokenInterface
 {
     /**
      * @Assert\NotBlank

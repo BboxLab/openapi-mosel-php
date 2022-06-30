@@ -4,10 +4,12 @@ namespace Bboxlab\Tests\Authenticator;
 
 use Bboxlab\Moselle\Authentication\Authenticator\Authenticator;
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\BtToken;
+use Bboxlab\Moselle\Authentication\Token\Token;
 use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class AuthenticatorTest extends TestCase
 {
@@ -24,7 +26,7 @@ class AuthenticatorTest extends TestCase
 
     public function createBtToken($new=true, $token=12345, $expiresIn=3600)
     {
-        $expectedResponse = new BtToken();
+        $expectedResponse = new Token();
         $expectedResponse->setNew($new);
         $expectedResponse->setCreatedAt((new \DateTime())->format('Y-m-d H:i:s p'));
         $expectedResponse->setAccessToken($token);
@@ -97,5 +99,30 @@ class AuthenticatorTest extends TestCase
         // should return an exception
         $this->expectException(BtHttpBadRequestException::class);
         $authenticator->authenticate('https://fakeurl.fake', $credentials);
+    }
+
+    public function testDenormalizeResponse()
+    {
+        $mockedClient = $this->createMoselleMock();
+        $authenticator = new Authenticator($mockedClient);
+
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, []);
+
+        $response = [
+            "access_token" => "at-894db2cd-a118-42e6-9f87-9b17cb5360d5",
+            "expires_in" => 3600,
+            "token_type" => "Bearer",
+            "refresh_credit" => 0,
+            "scope" => "EXT_PostalAddressConsult EXT_SalesPartnerContext EXT_ShoppingCartManage openid EXT_IbanConsult roles profile DocumentConsult EXT_CustomerAccountManage EXT_EmailAddressConsult EXT_PortabilityConsult EXT_OrderManage"
+        ];
+
+        $token = $authenticator->denormalizeResponse($serializer, $response);
+
+        // test by comparing result between authenticator->authenticate response and expected response
+        $this->assertEquals($response['access_token'], $token->getAccessToken());
+        $this->assertTrue($token->isNew());
+        $this->assertEquals($response['expires_in'], $token->getExpiresIn());
+        $this->assertIsString($token->getCreatedAt());
     }
 }

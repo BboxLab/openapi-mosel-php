@@ -5,24 +5,24 @@ declare(strict_types=1);
 
 namespace Bboxlab\Moselle\Response;
 
-use Bboxlab\Moselle\Authentication\Token\BtToken;
+use Bboxlab\Moselle\Authentication\Token\Token;
 
 class Response
 {
-    public function __construct(private BtToken $token, private $content) {}
+    public function __construct(private Token $token, private $content) {}
 
     /**
-     * @return BtToken
+     * @return Token
      */
-    public function getToken(): BtToken
+    public function getToken(): Token
     {
         return $this->token;
     }
 
     /**
-     * @param BtToken $token
+     * @param Token $token
      */
-    public function setToken(BtToken $token): void
+    public function setToken(Token $token): void
     {
         $this->token = $token;
     }
