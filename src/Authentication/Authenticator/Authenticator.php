@@ -6,6 +6,7 @@ use Bboxlab\Moselle\Authentication\Credentials\Credentials;
 use Bboxlab\Moselle\Authentication\Token\BtToken;
 use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
+use Bboxlab\Moselle\Validation\Validator;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Constraints\Url;
@@ -30,43 +31,17 @@ class Authenticator
         ]);
     }
 
-    public function checkSimpleValidation($input, $rules)
-    {
-        $validator = Validation::createValidator();
-        $violations = $validator->validate($input, $rules);
-
-        if (0 !== count($violations)) {
-            $errorsString = (string) $violations;
-            throw new BtHttpBadRequestException($errorsString);
-        }
-    }
-
-    public function checkObjectValidation($objectToValidate)
-    {
-        $validator = Validation::createValidatorBuilder()
-            ->enableAnnotationMapping()
-            ->addDefaultDoctrineAnnotationReader()
-            ->getValidator()
-        ;
-
-        $violations = $validator->validate($objectToValidate);
-
-        if (0 !== count($violations)) {
-            $errorsString = (string) $violations;
-            throw new BtHttpBadRequestException($errorsString);
-        }
-    }
-
     public function authenticate(
         string $oauthCredentialsUrl = self::OAUTH_CREDENTIALS_URL,
         Credentials $credentials = null
     ): BtToken
     {
         // validate credentials as input
-        $this->checkObjectValidation($credentials);
+        $validator = new Validator();
+        $validator->checkObjectValidation($credentials);
 
         // validate url as input
-        $this->checkSimpleValidation($oauthCredentialsUrl, [
+        $validator->checkSimpleValidation($oauthCredentialsUrl, [
             new Url(),
         ]);
 
@@ -87,7 +62,7 @@ class Authenticator
         $token->setNew(true);
 
         // the validity of the token object is checked
-        $this->checkObjectValidation($token);
+        $validator->checkObjectValidation($token);
 
         return $token;
     }
