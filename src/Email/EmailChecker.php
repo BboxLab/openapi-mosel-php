@@ -12,8 +12,13 @@ use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
 use Bboxlab\Moselle\Response\Response;
 
 
-final class EmailChecker
+class EmailChecker
 {
+    public function getMoselleClient(): MoselleClient
+    {
+        return new MoselleClient();
+    }
+
     public function __invoke(
         string $emailAddress,
         ConfigurationInterface $btConfig,
@@ -21,11 +26,13 @@ final class EmailChecker
         TokenInterface $token = null
     ): Response
     {
+        //todo: validation of the input
+
         // add content to body request
         $options['json'] = ['emailAddress' => $emailAddress];
 
         // http client declaration
-        $client = new MoselleClient();
+        $client = $this->getMoselleClient();
 
         // authentication with app credentials flow for getting token if necessary
         if (!$token || !(new TokenVoter())->vote($token)) {

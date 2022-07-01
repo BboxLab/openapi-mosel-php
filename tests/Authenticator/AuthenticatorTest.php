@@ -1,30 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Bboxlab\Tests\Authenticator;
 
 use Bboxlab\Moselle\Authentication\Authenticator\Authenticator;
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
 use Bboxlab\Moselle\Authentication\Token\Token;
-use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
-use PHPUnit\Framework\TestCase;
+use Bboxlab\Tests\Utils\AbstractMoselleTestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class AuthenticatorTest extends TestCase
+class AuthenticatorTest extends AbstractMoselleTestCase
 {
-    private function createMoselleMock(int $token = 12345, $expiresIn = 3600)
-    {
-        $mockedClient = $this->createMock(MoselleClient::class);
-        $mockedClient->method('requestBtOpenApi')
-            ->willReturn([
-                'access_token' => $token,
-                'expires_in' => $expiresIn
-            ]);
-        return $mockedClient;
-    }
-
-    public function createBtToken($new=true, $token=12345, $expiresIn=3600)
+    public function createBtToken($new=true, $token="12345", $expiresIn=3600)
     {
         $expectedResponse = new Token();
         $expectedResponse->setNew($new);
@@ -42,9 +32,8 @@ class AuthenticatorTest extends TestCase
         $mockedClient = $this->createMoselleMock();
 
         $authenticator = new Authenticator($mockedClient);
-        $credentials = new Credentials();
-        $credentials->setUsername('fake_user');
-        $credentials->setPassword('fake_password');
+        $credentials = $this->createCredentials();
+
         $response = $authenticator->authenticate('https://fakeurl.fake', $credentials);
 
         // create the expected response
