@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace Bboxlab\Moselle\Email;
 
-class BtEmailOutput
+class EmailOutput
 {
     private bool $contactEmailAddress;
     private bool $validEmailAddress;

@@ -10,7 +10,10 @@ use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Configuration\ConfigurationInterface;
 use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
 use Bboxlab\Moselle\Response\Response;
-
+use Bboxlab\Moselle\Validation\Validator;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\Constraints\Email;
 
 class EmailChecker
 {
@@ -26,7 +29,11 @@ class EmailChecker
         TokenInterface $token = null
     ): Response
     {
-        //todo: validation of the input
+        // check validation for input $email
+        $validator = new Validator();
+        $validator->checkSimpleValidation($emailAddress, [
+            new Email(),
+        ]);
 
         // add content to body request
         $options['json'] = ['emailAddress' => $emailAddress];
@@ -43,15 +50,20 @@ class EmailChecker
         $options['auth_bearer'] = $token->getAccessToken();
 
         // send request and get response
-        $emailResponse = $client->requestBtOpenApi('POST', $btConfig->getEmailAddressUrl(), $options);
-
-        // todo: check email response format
+        $response = $client->requestBtOpenApi('POST', $btConfig->getEmailAddressUrl(), $options);
 
         if (isset($result['status']) && 300 <= $result['status']) {
             throw new BtHttpBadRequestException($result['error']);
         }
 
-        return new Response($token, $emailResponse);
+        // denormalize into an email output object for validation and validate
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, []);
+        $emailOutput = $serializer->denormalize($response, EmailOutput::class);
+        $validator->checkObjectValidation($emailOutput);
+
+        // if token and validation outputs are ok, we send it in a response
+        return new Response($token, $response);
     }
 }
 
