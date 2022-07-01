@@ -2,64 +2,24 @@
 
 namespace Bboxlab\Moselle\Client;
 
-use Bboxlab\Moselle\Exception\BouyguesHttpBadRequestException;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
+use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class MoselleClient
+class MoselleClient implements HttpClientInterface
 {
-    /**
-     * @param HttpClientInterface $client
-     * @param string $method
-     * @param string $url
-     * @param array $options
-     * @return array
-     * @throws BouyguesHttpBadRequestException
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
-    public function request(HttpClientInterface $client, string $method, string $url, array $options = []): array
-    {
-        $response = $client->request($method, $url, $options);
-        $code = $response->getStatusCode();
+    use DecoratorTrait;
 
-        if ($code >= 300) {
+    public function requestBtOpenApi(string $method, string $url, array $options = []): array
+    {
+        $response = $this->client->request($method, $url, $options);
+
+        if ($code = $response->getStatusCode() >= 300) {
             $this->handleBtRequestError($code, $response->toArray(false));
         }
 
         return $response->toArray();
-    }
-
-    /**
-     * @param HttpClientInterface $client
-     * @param string $method
-     * @param string $url
-     * @param array $options
-     * @return string
-     * @throws BouyguesHttpBadRequestException
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
-    public function getContent(HttpClientInterface $client, string $method, string $url, array $options = []): string
-    {
-        $response = $client->request($method, $url, $options);
-
-        $code = $response->getStatusCode();
-        if ($code >= 300) {
-            $this->handleBtRequestError($code, $response->toArray(false));
-        }
-
-        return $response->getContent();
     }
 
     /**
@@ -83,43 +43,43 @@ final class MoselleClient
             $parameters = $error['error_parameters'];
         }
 
-        throw new BouyguesHttpBadRequestException(
+        throw new BtHttpBadRequestException(
             $name,
             null,
-            $code, [],
+            $code,
+            [],
             $description,
             $parameters,
-            BouyguesHttpBadRequestException::BT_SOURCE
+            BtHttpBadRequestException::BT_SOURCE
         );
     }
-
-    /**
-     * For using bt api in test we need to add some headers
-     * from Moselle
-     *
-     * @param array $options
-     * @return array
-     */
-    protected function addBouyguesTestHeaders(array $options, string $url):array
-    {
-        if (str_contains($url, '.sandbox.'))
-        {
-            if (!isset($options['headers']))
-                $options['headers'] = [];
-            $options['headers']['x-version'] = 4;
-
-            // depending the bt test env, headers values need to be changed
-            if (str_contains($url,'ap4')) {
-                $options['headers']['x-banc'] = 'ap23';
-            } else if (str_contains($url,'ap3')){
-                $options['headers']['x-banc'] = 'ap21';
-            } else {
-                throw new BouyguesHttpBadRequestException(
-                    'No corresponding "AP" env has been found in bt url oauth test url. "AP" known env are: AP3 and AP4'
-                );
-            }
-        }
-
-        return $options;
-    }
+//
+//    /**
+//     * For using bt api in test we need to add some headers
+//     * from Moselle
+//     *
+//     * @throws BtHttpBadRequestException
+//     */
+//    protected function addBouyguesTestHeaders(array $options, string $url):array
+//    {
+//        if (str_contains($url, '.sandbox.'))
+//        {
+//            if (!isset($options['headers']))
+//                $options['headers'] = [];
+//            $options['headers']['x-version'] = 4;
+//
+//            // depending the bt test env, headers values need to be changed
+//            if (str_contains($url,'ap4')) {
+//                $options['headers']['x-banc'] = 'ap23';
+//            } else if (str_contains($url,'ap3')){
+//                $options['headers']['x-banc'] = 'ap21';
+//            } else {
+//                throw new BtHttpBadRequestException(
+//                    'No corresponding "AP" env has been found in bt url oauth test url. "AP" known env are: AP3 and AP4'
+//                );
+//            }
+//        }
+//
+//        return $options;
+//    }
 }

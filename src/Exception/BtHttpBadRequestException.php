@@ -3,12 +3,12 @@
 
 namespace Bboxlab\Moselle\Exception;
 
-final class BouyguesHttpBadRequestException extends \Exception
+final class BtHttpBadRequestException extends \Exception
 {
     /** Default error source when an error occurs, ie: your e-commerce backend */
     const DEFAULT_SOURCE = 'default';
 
-    /** The error occurs on bt api */
+    /** The error occurred in bt api context */
     const BT_SOURCE = 'bt';
 
     /** A more detailed description of the error */
@@ -24,13 +24,12 @@ final class BouyguesHttpBadRequestException extends \Exception
         ?string $message = '',
         \Throwable $previous = null,
         int $code = 0,
-        array $headers = [],
         ?string $description = '',
         array $parameters = [],
         string $source = self::DEFAULT_SOURCE
     )
     {
-        parent::__construct($message, $previous, $code, $headers);
+        parent::__construct($message, $code, $previous);
         $this->setDescription($description);
         $this->setParameters($parameters);
         $this->setSource($source);
