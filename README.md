@@ -1,17 +1,22 @@
 # Moselle, an sdk package for BT open APIs
 
-This package is still under construction (june 28th 2022).
+This package is still under construction (july 4h 2022).
 
 Open Api are described on the Bouygues Telecom Developer Portal: https://developer.bouyguestelecom.fr
+
+## Install
+
+```
+composer require bboxlab/moselle
+```
 
 ## List of API in Open API SDK
 
 - check email address
-- normalize postal address
 
 ## How to test Moselle package
 
-We use phpunit to test Moselle Package:
+You can use phpunit to launch the tests:
 
 ```bash
  ./vendor/bin/phpunit tests/
