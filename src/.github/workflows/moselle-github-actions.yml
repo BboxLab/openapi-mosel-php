@@ -1,0 +1,14 @@
+name: moselle-github-actions
+on: [push]
+jobs:
+  moselle-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: php-actions/composer@v6
+        with:
+          php-version: 8.0
+          version: 2.x
+      - run: composer --version
+      - run: ./vendor/bin/phpunit --version
+      - run: ./vendor/bin/phpunit tests/
