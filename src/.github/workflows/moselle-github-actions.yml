@@ -1,5 +1,11 @@
 name: moselle-github-actions
-on: [push]
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
 jobs:
   moselle-ci:
     runs-on: ubuntu-latest
