@@ -17,11 +17,30 @@ composer require bboxlab/moselle
 
 ## How to use?
 
-- Install the package on a php application with composer
-- Call the Helper you want to use for calling a Bt Open API: for example EmailChecker for check email address
-  - pass credentials in the call or a token if you already have one
-  - you can get the token from the helper response and keep it in a storage for multiple open api calls
-  - get the reponse content for checking the email address
+First, Install the package on a php application with composer.
+
+Then, create an Sdk Moselle Object with a configuration.
+
+```php
+$configuration = new Configuration();
+...
+$sdk = new Sdk('clientId', 'secretId', $configuration);
+
+```
+
+You can use a preexisting configuration, here for the default bt env configuration.
+
+```php
+$sdk = new Sdk('clientId', 'secretId', new ConfigurationCreator()->createApConfig());
+```
+
+When sdk is set correctly, you can use it to fetch secured open api
+
+```php
+$response = $sdk->checkEmail('example@email.com')
+```
+
+Response object returns the app credentials token created and the response given by Bt Api in array. 
 
 ## How to test Moselle package
 
