@@ -17,6 +17,10 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class EmailChecker
 {
+    public function __construct(
+        private Validator $validator
+    ){}
+
     public function getMoselleClient(): MoselleClient
     {
         return new MoselleClient();
@@ -26,12 +30,11 @@ class EmailChecker
         string $emailAddress,
         ConfigurationInterface $btConfig,
         Credentials $credentials,
-        TokenInterface $token = null
+        TokenInterface $token = null,
     ): Response
     {
         // check validation for input $email
-        $validator = new Validator();
-        $validator->checkSimpleValidation($emailAddress, [
+        $this->validator->checkSimpleValidation($emailAddress, [
             new Email(),
         ]);
 
@@ -60,7 +63,7 @@ class EmailChecker
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, []);
         $emailOutput = $serializer->denormalize($response, EmailOutput::class);
-        $validator->checkObjectValidation($emailOutput);
+        $this->validator->checkObjectValidation($emailOutput);
 
         // if token and validation outputs are ok, we send it in a response
         return new Response($token, $response);

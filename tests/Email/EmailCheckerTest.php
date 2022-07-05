@@ -4,6 +4,7 @@ namespace Bboxlab\Tests\Email;
 
 use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Configuration\Configuration;
+use Bboxlab\Moselle\Validation\Validator;
 use Bboxlab\Tests\Utils\AbstractMoselleTestCase;
 use Bboxlab\Moselle\Email\EmailChecker;
 
@@ -28,6 +29,7 @@ class EmailCheckerTest extends AbstractMoselleTestCase
         // replace getMoselleClient method only by returning a mocked client
         $mockedChecker = $this->getMockBuilder(EmailChecker::class)
             ->onlyMethods(['getMoselleClient'])
+            ->setConstructorArgs([new Validator()])
             ->getMock();
 
         // inject mocked client into getMoselleClient function (inside EmailChecker)
