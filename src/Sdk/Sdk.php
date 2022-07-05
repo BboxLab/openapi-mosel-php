@@ -7,6 +7,7 @@ namespace Bboxlab\Moselle\Sdk;
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
 use Bboxlab\Moselle\Authentication\Token\Token;
 use Bboxlab\Moselle\Configuration\Configuration;
+use Bboxlab\Moselle\Configuration\ConfigurationInterface;
 use Bboxlab\Moselle\Email\EmailChecker;
 use Bboxlab\Moselle\Response\Response;
 use Bboxlab\Moselle\Validation\Validator;
@@ -15,14 +16,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class Sdk
 {
-    private ?Configuration $configuration;
+    private ?ConfigurationInterface $configuration;
     private ?Credentials $credentials;
     private ?Validator $validator;
 
     public function __construct(
         string $clientId,
-        string $secretId,
-        Configuration $configuration,
+        string $secret,
+        ConfigurationInterface $configuration,
     ) {
         // validate secrets input
         $this->validator = new Validator();
@@ -35,7 +36,7 @@ class Sdk
 
         $credentials = new Credentials();
         $credentials->setUsername($clientId);
-        $credentials->setPassword($secretId);
+        $credentials->setPassword($secret);
         $this->credentials = $credentials;
 
         // validate $configuration input
