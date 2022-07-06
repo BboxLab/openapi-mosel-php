@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Validation;
 
 class Validator
 {
-    public function checkSimpleValidation($input, $rules)
+    public function validateWithRules($input, $rules)
     {
         $validator = Validation::createValidator();
         $violations = $validator->validate($input, $rules);
@@ -20,7 +20,7 @@ class Validator
         }
     }
 
-    public function checkObjectValidation($objectToValidate)
+    public function validate($objectToValidate)
     {
         $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()

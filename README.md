@@ -1,6 +1,6 @@
-# Moselle, an sdk package for BT open APIs
+# Moselle, a sdk package for BT open APIs
 
-This package is still under construction (july 5th 2022).
+This package is still under construction (july 6th 2022).
 
 Open Api are described in the Bouygues Telecom Developer Portal: https://developer.bouyguestelecom.fr
 
@@ -14,12 +14,14 @@ composer require bboxlab/moselle
 
 - authenticator for app credentials Oauth flow
 - check email address
+- check iban
+- check portability
 
 ## How to use?
 
-First, Install the package on a php application with composer.
+First, install the package on your php application with composer.
 
-Then, create an Sdk Moselle Object with a configuration.
+Then, create a Sdk Moselle Object with a credentials and a moselle configuration.
 
 ```php
 $configuration = new Configuration();

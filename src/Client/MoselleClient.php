@@ -47,13 +47,12 @@ class MoselleClient implements HttpClientInterface
             $name,
             null,
             $code,
-            [],
             $description,
             $parameters,
             BtHttpBadRequestException::BT_SOURCE
         );
     }
-//
+
 //    /**
 //     * For using bt api in test we need to add some headers
 //     * from Moselle
