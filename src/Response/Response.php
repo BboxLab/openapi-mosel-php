@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace Bboxlab\Moselle\Response;
+namespace Bboxlab\Mosel\Response;
 
-use Bboxlab\Moselle\Authentication\Token\Token;
+use Bboxlab\Mosel\Authentication\Token\Token;
 
 class Response
 {

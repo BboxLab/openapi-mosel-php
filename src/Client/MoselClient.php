@@ -1,13 +1,12 @@
 <?php
 
-namespace Bboxlab\Moselle\Client;
+namespace Bboxlab\Mosel\Client;
 
-use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
+use Bboxlab\Mosel\Exception\BtHttpBadRequestException;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class MoselleClient implements HttpClientInterface
+class MoselClient implements HttpClientInterface
 {
     use DecoratorTrait;
 
@@ -55,7 +54,7 @@ class MoselleClient implements HttpClientInterface
 
 //    /**
 //     * For using bt api in test we need to add some headers
-//     * from Moselle
+//     * from Mosel
 //     *
 //     * @throws BtHttpBadRequestException
 //     */

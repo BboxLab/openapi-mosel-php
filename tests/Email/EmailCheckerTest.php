@@ -2,19 +2,19 @@
 
 namespace Bboxlab\Tests\Email;
 
-use Bboxlab\Moselle\Client\MoselleClient;
-use Bboxlab\Moselle\Configuration\Configuration;
-use Bboxlab\Moselle\Email\EmailInput;
-use Bboxlab\Moselle\Validation\Validator;
-use Bboxlab\Tests\Utils\AbstractMoselleTestCase;
-use Bboxlab\Moselle\Email\EmailChecker;
+use Bboxlab\Mosel\Client\MoselClient;
+use Bboxlab\Mosel\Configuration\Configuration;
+use Bboxlab\Mosel\Email\EmailInput;
+use Bboxlab\Mosel\Validation\Validator;
+use Bboxlab\Tests\Utils\AbstractMoselTestCase;
+use Bboxlab\Mosel\Email\EmailChecker;
 
-class EmailCheckerTest extends AbstractMoselleTestCase
+class EmailCheckerTest extends AbstractMoselTestCase
 {
     public function testCheckEmail()
     {
-        // create a mock for Moselle Client
-        $mockedClient = $this->createMock(MoselleClient::class);
+        // create a mock for Mosel Client
+        $mockedClient = $this->createMock(MoselClient::class);
         $mockedClient->method('requestBtOpenApi')
             ->willReturnOnConsecutiveCalls(
                 [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bboxlab\Moselle\Portability;
+namespace Bboxlab\Mosel\Portability;
 
 class PortabilityOutput
 {

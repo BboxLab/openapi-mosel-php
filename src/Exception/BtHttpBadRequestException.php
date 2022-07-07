@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bboxlab\Moselle\Exception;
+namespace Bboxlab\Mosel\Exception;
 
 final class BtHttpBadRequestException extends \Exception
 {

@@ -1,4 +1,4 @@
-# Moselle, a sdk package for BT open APIs
+# Mosel, a sdk package for BT open APIs
 
 This package is still under construction (july 6th 2022).
 
@@ -7,7 +7,7 @@ Open Api are described in the Bouygues Telecom Developer Portal: https://develop
 ## Install
 
 ```
-composer require bboxlab/moselle
+composer require bboxlab/mosel
 ```
 
 ## List of API and tools in Open API SDK
@@ -21,7 +21,7 @@ composer require bboxlab/moselle
 
 First, install the package on your php application with composer.
 
-Then, create a Sdk Moselle Object with a credentials and a moselle configuration.
+Then, create a Sdk Mosel Object with a credentials and a mosel configuration.
 
 ```php
 $configuration = new Configuration();
@@ -42,9 +42,9 @@ When sdk is set correctly, you can use it to fetch secured open api
 $response = $sdk->checkEmail('example@email.com')
 ```
 
-A Moselle Response object is returned with the app credentials token created as an object and the response given by Bt Api as an array. 
+A Mosel Response object is returned with the app credentials token created as an object and the response given by Bt Api as an array. 
 
-## How to test Moselle package
+## How to test Mosel package
 
 You can use phpunit to launch the tests:
 

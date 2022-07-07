@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Bboxlab\Moselle\Authentication\Credentials;
+namespace Bboxlab\Mosel\Authentication\Credentials;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

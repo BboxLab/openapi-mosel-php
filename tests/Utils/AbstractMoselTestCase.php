@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Bboxlab\Tests\Utils;
 
-use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Client\MoselleClient;
+use Bboxlab\Mosel\Authentication\Credentials\Credentials;
+use Bboxlab\Mosel\Client\MoselClient;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractMoselleTestCase extends TestCase
+abstract class AbstractMoselTestCase extends TestCase
 {
-    protected function createMoselleMock(string $token = "12345", $expiresIn = 3600)
+    protected function createMoselMock(string $token = "12345", $expiresIn = 3600)
     {
-        $mockedClient = $this->createMock(MoselleClient::class);
+        $mockedClient = $this->createMock(MoselClient::class);
         $mockedClient->method('requestBtOpenApi')
             ->willReturn([
                 'access_token' => $token,

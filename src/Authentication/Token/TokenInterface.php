@@ -1,6 +1,6 @@
 <?php
 
-namespace Bboxlab\Moselle\Authentication\Token;
+namespace Bboxlab\Mosel\Authentication\Token;
 
 interface TokenInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bboxlab\Moselle\Configuration;
+namespace Bboxlab\Mosel\Configuration;
 
 class ConfigurationCreator
 {
