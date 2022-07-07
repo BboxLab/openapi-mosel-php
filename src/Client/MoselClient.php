@@ -4,6 +4,7 @@ namespace Bboxlab\Mosel\Client;
 
 use Bboxlab\Mosel\Exception\BtHttpBadRequestException;
 use Symfony\Component\HttpClient\DecoratorTrait;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MoselClient implements HttpClientInterface
@@ -14,7 +15,12 @@ class MoselClient implements HttpClientInterface
     {
         $response = $this->client->request($method, $url, $options);
 
-        if ($code = $response->getStatusCode() >= 300) {
+        // if there is no response we return an empty array
+        if (Response::HTTP_NO_CONTENT == $response->getStatusCode()) {
+            return [];
+        }
+
+        if ($code = $response->getStatusCode() >= Response::HTTP_MULTIPLE_CHOICES) {
             $this->handleBtRequestError($code, $response->toArray(false));
         }
 

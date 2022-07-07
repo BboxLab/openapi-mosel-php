@@ -26,9 +26,10 @@ class IbanChecker extends AbstractChecker
             $btConfig->getIbanUrl(),
             $btConfig->getOauthAppCredentialsUrl(),
             $input,
-            IbanOutput::class,
+            '',
             $credentials,
-            $token
+            $token,
+            'iban'
         );
     }
 }
