@@ -29,4 +29,5 @@ class PortabilityChecker extends AbstractChecker
             $token
         );
     }
+
 }

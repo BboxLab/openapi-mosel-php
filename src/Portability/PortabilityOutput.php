@@ -6,5 +6,5 @@ namespace Bboxlab\Moselle\Portability;
 
 class PortabilityOutput
 {
-
+    //todo: to complete
 }

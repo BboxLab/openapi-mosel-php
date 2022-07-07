@@ -7,6 +7,7 @@ class Configuration implements ConfigurationInterface
     private string $name;
     private string $emailAddressUrl;
     private string $portabilityUrl;
+    private string $ibanUrl;
     private string $oauthAppCredentialsUrl;
 
     /**
@@ -71,6 +72,22 @@ class Configuration implements ConfigurationInterface
     public function setPortabilityUrl(string $portabilityUrl): void
     {
         $this->portabilityUrl = $portabilityUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIbanUrl(): string
+    {
+        return $this->ibanUrl;
+    }
+
+    /**
+     * @param string $ibanUrl
+     */
+    public function setIbanUrl(string $ibanUrl): void
+    {
+        $this->ibanUrl = $ibanUrl;
     }
 
 }

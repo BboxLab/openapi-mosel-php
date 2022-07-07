@@ -12,6 +12,7 @@ use Bboxlab\Moselle\Configuration\ConfigurationInterface;
 use Bboxlab\Moselle\Dto\BtInputInterface;
 use Bboxlab\Moselle\Email\EmailChecker;
 use Bboxlab\Moselle\Email\EmailInput;
+use Bboxlab\Moselle\Iban\IbanInput;
 use Bboxlab\Moselle\Portability\PortabilityChecker;
 use Bboxlab\Moselle\Portability\PortabilityInput;
 use Bboxlab\Moselle\Response\Response;
@@ -49,6 +50,11 @@ class Sdk implements SdkInterface
     }
 
     public function checkPortability(PortabilityInput $input, ?Token $token = null): Response
+    {
+        return (new PortabilityChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
+    }
+
+    public function checkIban(IbanInput $input, ?Token $token = null): Response
     {
         return (new PortabilityChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
     }
