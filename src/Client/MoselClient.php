@@ -5,7 +5,6 @@ namespace Bboxlab\Mosel\Client;
 use Bboxlab\Mosel\Exception\BtHttpBadRequestException;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class MoselClient implements HttpClientInterface
 {
