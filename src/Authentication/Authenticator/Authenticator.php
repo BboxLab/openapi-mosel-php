@@ -48,10 +48,10 @@ class Authenticator
     {
         // validate credentials as input
         $validator = new Validator();
-        $validator->checkObjectValidation($credentials);
+        $validator->validate($credentials);
 
         // validate url as input
-        $validator->checkSimpleValidation($oauthCredentialsUrl, [
+        $validator->validateWithRules($oauthCredentialsUrl, [
             new Url(),
         ]);
 
@@ -68,7 +68,7 @@ class Authenticator
         $token = $this->denormalizeResponse($serializer, $response);
 
         // the validity of the token is checked
-        $validator->checkObjectValidation($token);
+        $validator->validate($token);
 
         return $token;
     }

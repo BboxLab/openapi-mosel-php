@@ -6,42 +6,32 @@ namespace Bboxlab\Moselle\Sdk;
 
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
 use Bboxlab\Moselle\Authentication\Token\Token;
+use Bboxlab\Moselle\Client\MoselleClient;
 use Bboxlab\Moselle\Configuration\Configuration;
 use Bboxlab\Moselle\Configuration\ConfigurationInterface;
+use Bboxlab\Moselle\Dto\BtInputInterface;
 use Bboxlab\Moselle\Email\EmailChecker;
+use Bboxlab\Moselle\Email\EmailInput;
+use Bboxlab\Moselle\Iban\IbanInput;
+use Bboxlab\Moselle\Portability\PortabilityChecker;
+use Bboxlab\Moselle\Portability\PortabilityInput;
 use Bboxlab\Moselle\Response\Response;
 use Bboxlab\Moselle\Validation\Validator;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class Sdk
+class Sdk implements SdkInterface
 {
-    private ?ConfigurationInterface $configuration;
-    private ?Credentials $credentials;
     private ?Validator $validator;
 
     public function __construct(
-        string $clientId,
-        string $secret,
-        ConfigurationInterface $configuration,
+        private Credentials $credentials,
+        private ConfigurationInterface $configuration,
     ) {
-        // validate secrets input
+        // validate secrets and configuration inputs
         $this->validator = new Validator();
-        $rules = [
-            new Length(['max' => 500]),
-            new NotBlank(),
-        ];
-        $this->validator->checkSimpleValidation($clientId, $rules);
-        $this->validator->checkSimpleValidation($clientId, $rules);
-
-        $credentials = new Credentials();
-        $credentials->setUsername($clientId);
-        $credentials->setPassword($secret);
-        $this->credentials = $credentials;
-
-        // validate $configuration input
-        $this->validator->checkObjectValidation($configuration);
-        $this->configuration = $configuration;
+        $this->validator->validate($this->credentials);
+        $this->validator->validate($configuration);
     }
 
     public function getConfiguration(): ?Configuration
@@ -54,8 +44,19 @@ class Sdk
         return $this->credentials;
     }
 
-    public function checkEmail(string $email, ?Token $token = null): Response
+    public function checkEmail(EmailInput $input, ?Token $token = null): Response
     {
-        return (new EmailChecker($this->validator))($email,$this->configuration , $this->credentials, $token);
+        return (new EmailChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
     }
+
+    public function checkPortability(PortabilityInput $input, ?Token $token = null): Response
+    {
+        return (new PortabilityChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
+    }
+
+    public function checkIban(IbanInput $input, ?Token $token = null): Response
+    {
+        return (new PortabilityChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
+    }
+
 }

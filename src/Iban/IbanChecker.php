@@ -1,6 +1,10 @@
 <?php
 
-namespace Bboxlab\Moselle\Email;
+declare(strict_types=1);
+
+
+namespace Bboxlab\Moselle\Iban;
+
 
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
 use Bboxlab\Moselle\Authentication\Token\TokenInterface;
@@ -9,8 +13,7 @@ use Bboxlab\Moselle\Configuration\ConfigurationInterface;
 use Bboxlab\Moselle\Dto\BtInputInterface;
 use Bboxlab\Moselle\Response\Response;
 
-
-class EmailChecker extends AbstractChecker
+class IbanChecker extends AbstractChecker
 {
     public function __invoke(
         BtInputInterface $input,
@@ -20,14 +23,12 @@ class EmailChecker extends AbstractChecker
     ): Response
     {
         return $this->check(
-            $btConfig->getEmailAddressUrl(),
+            $btConfig->getIbanUrl(),
             $btConfig->getOauthAppCredentialsUrl(),
             $input,
-            EmailOutput::class,
+            IbanOutput::class,
             $credentials,
             $token
         );
     }
-
 }
-

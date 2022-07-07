@@ -1,6 +1,8 @@
 <?php
 
-namespace Bboxlab\Moselle\Email;
+declare(strict_types=1);
+
+namespace Bboxlab\Moselle\Portability;
 
 use Bboxlab\Moselle\Authentication\Credentials\Credentials;
 use Bboxlab\Moselle\Authentication\Token\TokenInterface;
@@ -9,8 +11,7 @@ use Bboxlab\Moselle\Configuration\ConfigurationInterface;
 use Bboxlab\Moselle\Dto\BtInputInterface;
 use Bboxlab\Moselle\Response\Response;
 
-
-class EmailChecker extends AbstractChecker
+class PortabilityChecker extends AbstractChecker
 {
     public function __invoke(
         BtInputInterface $input,
@@ -20,14 +21,13 @@ class EmailChecker extends AbstractChecker
     ): Response
     {
         return $this->check(
-            $btConfig->getEmailAddressUrl(),
+            $btConfig->getPortabilityUrl(),
             $btConfig->getOauthAppCredentialsUrl(),
             $input,
-            EmailOutput::class,
+            PortabilityOutput::class,
             $credentials,
             $token
         );
     }
 
 }
-
