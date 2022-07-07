@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Bboxlab\Tests\Authenticator;
 
-use Bboxlab\Moselle\Authentication\Authenticator\Authenticator;
-use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\Token;
-use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
-use Bboxlab\Tests\Utils\AbstractMoselleTestCase;
+use Bboxlab\Mosel\Authentication\Authenticator\Authenticator;
+use Bboxlab\Mosel\Authentication\Credentials\Credentials;
+use Bboxlab\Mosel\Authentication\Token\Token;
+use Bboxlab\Mosel\Exception\BtHttpBadRequestException;
+use Bboxlab\Tests\Utils\AbstractMoselTestCase;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class AuthenticatorTest extends AbstractMoselleTestCase
+class AuthenticatorTest extends AbstractMoselTestCase
 {
     public function createBtToken($new=true, $token="12345", $expiresIn=3600)
     {
@@ -28,8 +28,8 @@ class AuthenticatorTest extends AbstractMoselleTestCase
     /** nominal case */
     public function testAuthenticate()
     {
-        // create an authenticator with a mocked moselle client
-        $mockedClient = $this->createMoselleMock();
+        // create an authenticator with a mocked mosel client
+        $mockedClient = $this->createMoselMock();
 
         $authenticator = new Authenticator($mockedClient);
         $credentials = $this->createCredentials();
@@ -49,8 +49,8 @@ class AuthenticatorTest extends AbstractMoselleTestCase
     /** pass credentials as an array */
     public function testAuthenticateWithWrongFormatCredentials()
     {
-        // create an authenticator with a mocked moselle client
-        $mockedClient = $this->createMoselleMock();
+        // create an authenticator with a mocked mosel client
+        $mockedClient = $this->createMoselMock();
         $authenticator = new Authenticator($mockedClient);
 
         // we simulate an error type
@@ -61,8 +61,8 @@ class AuthenticatorTest extends AbstractMoselleTestCase
     /** pass a string  but it's not an url*/
     public function testAuthenticateWithWrongUrl()
     {
-        // create an authenticator with a mocked moselle client
-        $mockedClient = $this->createMoselleMock();
+        // create an authenticator with a mocked mosel client
+        $mockedClient = $this->createMoselMock();
         $authenticator = new Authenticator($mockedClient);
 
         $credentials = new Credentials();
@@ -77,8 +77,8 @@ class AuthenticatorTest extends AbstractMoselleTestCase
     /** pass credentials as an object but put a 200 char string as password */
     public function testAuthenticateWithWrongFormatTooLongUsername()
     {
-        // create an authenticator with a mocked moselle client
-        $mockedClient = $this->createMoselleMock();
+        // create an authenticator with a mocked mosel client
+        $mockedClient = $this->createMoselMock();
         $authenticator = new Authenticator($mockedClient);
 
         $credentials = new Credentials();
@@ -92,7 +92,7 @@ class AuthenticatorTest extends AbstractMoselleTestCase
 
     public function testDenormalizeResponse()
     {
-        $mockedClient = $this->createMoselleMock();
+        $mockedClient = $this->createMoselMock();
         $authenticator = new Authenticator($mockedClient);
 
         $normalizers = [new ObjectNormalizer()];

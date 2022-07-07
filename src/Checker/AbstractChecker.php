@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Bboxlab\Moselle\Checker;
+namespace Bboxlab\Mosel\Checker;
 
-use Bboxlab\Moselle\Authentication\Authenticator\Authenticator;
-use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\Token;
-use Bboxlab\Moselle\Authentication\Token\TokenVoter;
-use Bboxlab\Moselle\Client\MoselleClient;
-use Bboxlab\Moselle\Dto\BtInputInterface;
-use Bboxlab\Moselle\Email\EmailInput;
-use Bboxlab\Moselle\Email\EmailOutput;
-use Bboxlab\Moselle\Portability\PortabilityInput;
-use Bboxlab\Moselle\Portability\PortabilityOutput;
-use Bboxlab\Moselle\Response\Response;
-use Bboxlab\Moselle\Validation\Validator;
+use Bboxlab\Mosel\Authentication\Authenticator\Authenticator;
+use Bboxlab\Mosel\Authentication\Credentials\Credentials;
+use Bboxlab\Mosel\Authentication\Token\Token;
+use Bboxlab\Mosel\Authentication\Token\TokenVoter;
+use Bboxlab\Mosel\Client\MoselClient;
+use Bboxlab\Mosel\Dto\BtInputInterface;
+use Bboxlab\Mosel\Email\EmailInput;
+use Bboxlab\Mosel\Email\EmailOutput;
+use Bboxlab\Mosel\Portability\PortabilityInput;
+use Bboxlab\Mosel\Portability\PortabilityOutput;
+use Bboxlab\Mosel\Response\Response;
+use Bboxlab\Mosel\Validation\Validator;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -23,10 +23,10 @@ abstract class AbstractChecker
 {
     public function __construct(
         protected Validator $validator,
-        private MoselleClient $client,
+        private MoselClient $client,
     ) {}
 
-    public function handleAuthentication(MoselleClient $client, string $url, Credentials $credentials, ?Token $token = null): Token
+    public function handleAuthentication(MoselClient $client, string $url, Credentials $credentials, ?Token $token = null): Token
     {
         if (!$token || !(new TokenVoter())->vote($token)) {
             $token = (new Authenticator($client))->authenticate($url, $credentials);
@@ -35,7 +35,7 @@ abstract class AbstractChecker
         return $token;
     }
 
-    public function handleRequest(Serializer $serializer, MoselleClient $client, Token $token, $input, string $url): array
+    public function handleRequest(Serializer $serializer, MoselClient $client, Token $token, $input, string $url): array
     {
         $options['auth_bearer'] = $token->getAccessToken();
         $options['json'] = $serializer->normalize($input);

@@ -5,21 +5,19 @@ declare(strict_types=1);
 
 namespace Bboxlab\Tests\Portability;
 
-use Bboxlab\Moselle\Client\MoselleClient;
-use Bboxlab\Moselle\Configuration\Configuration;
-use Bboxlab\Moselle\Email\EmailChecker;
-use Bboxlab\Moselle\Email\EmailInput;
-use Bboxlab\Moselle\Portability\PortabilityChecker;
-use Bboxlab\Moselle\Portability\PortabilityInput;
-use Bboxlab\Moselle\Validation\Validator;
-use Bboxlab\Tests\Utils\AbstractMoselleTestCase;
+use Bboxlab\Mosel\Client\MoselClient;
+use Bboxlab\Mosel\Configuration\Configuration;
+use Bboxlab\Mosel\Portability\PortabilityChecker;
+use Bboxlab\Mosel\Portability\PortabilityInput;
+use Bboxlab\Mosel\Validation\Validator;
+use Bboxlab\Tests\Utils\AbstractMoselTestCase;
 
-class PortabilityCheckerTest extends AbstractMoselleTestCase
+class PortabilityCheckerTest extends AbstractMoselTestCase
 {
     public function testCheckPortability()
     {
-        // create a mock for Moselle Client
-        $mockedClient = $this->createMock(MoselleClient::class);
+        // create a mock for Mosel Client
+        $mockedClient = $this->createMock(MoselClient::class);
         $mockedClient->method('requestBtOpenApi')
             ->willReturnOnConsecutiveCalls(
                 [

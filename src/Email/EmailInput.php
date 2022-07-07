@@ -1,8 +1,8 @@
 <?php
 
-namespace Bboxlab\Moselle\Email;
+namespace Bboxlab\Mosel\Email;
 
-use Bboxlab\Moselle\Dto\BtInputInterface;
+use Bboxlab\Mosel\Dto\BtInputInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class EmailInput implements BtInputInterface

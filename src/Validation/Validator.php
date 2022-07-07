@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Bboxlab\Moselle\Validation;
+namespace Bboxlab\Mosel\Validation;
 
-use Bboxlab\Moselle\Exception\BtHttpBadRequestException;
+use Bboxlab\Mosel\Exception\BtHttpBadRequestException;
 use Symfony\Component\Validator\Validation;
 
 class Validator

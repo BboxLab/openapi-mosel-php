@@ -1,15 +1,15 @@
 <?php
 
-namespace Bboxlab\Moselle\Sdk;
+namespace Bboxlab\Mosel\Sdk;
 
-use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\Token;
-use Bboxlab\Moselle\Configuration\Configuration;
-use Bboxlab\Moselle\Configuration\ConfigurationInterface;
-use Bboxlab\Moselle\Email\EmailInput;
-use Bboxlab\Moselle\Iban\IbanInput;
-use Bboxlab\Moselle\Portability\PortabilityInput;
-use Bboxlab\Moselle\Response\Response;
+use Bboxlab\Mosel\Authentication\Credentials\Credentials;
+use Bboxlab\Mosel\Authentication\Token\Token;
+use Bboxlab\Mosel\Configuration\Configuration;
+use Bboxlab\Mosel\Configuration\ConfigurationInterface;
+use Bboxlab\Mosel\Email\EmailInput;
+use Bboxlab\Mosel\Iban\IbanInput;
+use Bboxlab\Mosel\Portability\PortabilityInput;
+use Bboxlab\Mosel\Response\Response;
 
 interface SdkInterface
 {

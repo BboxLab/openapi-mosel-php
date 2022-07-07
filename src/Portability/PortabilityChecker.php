@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Bboxlab\Moselle\Portability;
+namespace Bboxlab\Mosel\Portability;
 
-use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\TokenInterface;
-use Bboxlab\Moselle\Checker\AbstractChecker;
-use Bboxlab\Moselle\Configuration\ConfigurationInterface;
-use Bboxlab\Moselle\Dto\BtInputInterface;
-use Bboxlab\Moselle\Response\Response;
+use Bboxlab\Mosel\Authentication\Credentials\Credentials;
+use Bboxlab\Mosel\Authentication\Token\TokenInterface;
+use Bboxlab\Mosel\Checker\AbstractChecker;
+use Bboxlab\Mosel\Configuration\ConfigurationInterface;
+use Bboxlab\Mosel\Dto\BtInputInterface;
+use Bboxlab\Mosel\Response\Response;
 
 class PortabilityChecker extends AbstractChecker
 {

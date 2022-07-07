@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Bboxlab\Moselle\Email;
+namespace Bboxlab\Mosel\Email;
 
 class EmailOutput
 {

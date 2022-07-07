@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Bboxlab\Moselle\Configuration;
+namespace Bboxlab\Mosel\Configuration;
 
 use DateTime;
 

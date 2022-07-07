@@ -1,4 +1,4 @@
-name: moselle-github-actions
+name: mosel-github-actions
 
 on:
   push:

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace Bboxlab\Moselle\Portability;
+namespace Bboxlab\Mosel\Portability;
 
-use Bboxlab\Moselle\Dto\BtInputInterface;
+use Bboxlab\Mosel\Dto\BtInputInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PortabilityInput implements BtInputInterface

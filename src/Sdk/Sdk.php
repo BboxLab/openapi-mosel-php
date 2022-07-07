@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Bboxlab\Moselle\Sdk;
+namespace Bboxlab\Mosel\Sdk;
 
-use Bboxlab\Moselle\Authentication\Credentials\Credentials;
-use Bboxlab\Moselle\Authentication\Token\Token;
-use Bboxlab\Moselle\Client\MoselleClient;
-use Bboxlab\Moselle\Configuration\Configuration;
-use Bboxlab\Moselle\Configuration\ConfigurationInterface;
-use Bboxlab\Moselle\Dto\BtInputInterface;
-use Bboxlab\Moselle\Email\EmailChecker;
-use Bboxlab\Moselle\Email\EmailInput;
-use Bboxlab\Moselle\Iban\IbanInput;
-use Bboxlab\Moselle\Portability\PortabilityChecker;
-use Bboxlab\Moselle\Portability\PortabilityInput;
-use Bboxlab\Moselle\Response\Response;
-use Bboxlab\Moselle\Validation\Validator;
+use Bboxlab\Mosel\Authentication\Credentials\Credentials;
+use Bboxlab\Mosel\Authentication\Token\Token;
+use Bboxlab\Mosel\Client\MoselClient;
+use Bboxlab\Mosel\Configuration\Configuration;
+use Bboxlab\Mosel\Configuration\ConfigurationInterface;
+use Bboxlab\Mosel\Dto\BtInputInterface;
+use Bboxlab\Mosel\Email\EmailChecker;
+use Bboxlab\Mosel\Email\EmailInput;
+use Bboxlab\Mosel\Iban\IbanInput;
+use Bboxlab\Mosel\Portability\PortabilityChecker;
+use Bboxlab\Mosel\Portability\PortabilityInput;
+use Bboxlab\Mosel\Response\Response;
+use Bboxlab\Mosel\Validation\Validator;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -46,17 +46,17 @@ class Sdk implements SdkInterface
 
     public function checkEmail(EmailInput $input, ?Token $token = null): Response
     {
-        return (new EmailChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
+        return (new EmailChecker($this->validator, new MoselClient()))($input, $this->configuration , $this->credentials, $token);
     }
 
     public function checkPortability(PortabilityInput $input, ?Token $token = null): Response
     {
-        return (new PortabilityChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
+        return (new PortabilityChecker($this->validator, new MoselClient()))($input, $this->configuration , $this->credentials, $token);
     }
 
     public function checkIban(IbanInput $input, ?Token $token = null): Response
     {
-        return (new PortabilityChecker($this->validator, new MoselleClient()))($input, $this->configuration , $this->credentials, $token);
+        return (new PortabilityChecker($this->validator, new MoselClient()))($input, $this->configuration , $this->credentials, $token);
     }
 
 }
