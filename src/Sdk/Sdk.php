@@ -12,6 +12,7 @@ use Bboxlab\Mosel\Configuration\ConfigurationInterface;
 use Bboxlab\Mosel\Dto\BtInputInterface;
 use Bboxlab\Mosel\Email\EmailChecker;
 use Bboxlab\Mosel\Email\EmailInput;
+use Bboxlab\Mosel\Iban\IbanChecker;
 use Bboxlab\Mosel\Iban\IbanInput;
 use Bboxlab\Mosel\Portability\PortabilityChecker;
 use Bboxlab\Mosel\Portability\PortabilityInput;
@@ -56,7 +57,7 @@ class Sdk implements SdkInterface
 
     public function checkIban(IbanInput $input, ?Token $token = null): Response
     {
-        return (new PortabilityChecker($this->validator, new MoselClient()))($input, $this->configuration , $this->credentials, $token);
+        return (new IbanChecker($this->validator, new MoselClient()))($input, $this->configuration , $this->credentials, $token);
     }
 
 }
