@@ -17,6 +17,8 @@ use Symfony\Component\Serializer\Serializer;
 
 abstract class AbstractChecker
 {
+    const DEFAULT_RESPONSE_LABEL = 'check';
+
     public function __construct(
         protected Validator $validator,
         private MoselClient $client,
@@ -45,7 +47,8 @@ abstract class AbstractChecker
         BtInputInterface $input,
         string $outputClass,
         ?Credentials $credentials = null,
-        Token $token = null
+        Token $token = null,
+        string $customResponse = self::DEFAULT_RESPONSE_LABEL
     ): Response
     {
         // validate input
@@ -58,12 +61,18 @@ abstract class AbstractChecker
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, []);
 
-        // handle request
-        $response = $this->handleRequest($serializer, $this->client, $token, $input, $requestUrl);
+        // handle request : if there is no response, we add a generic respons check => true
+        if (!$response = $this->handleRequest($serializer, $this->client, $token, $input, $requestUrl, $customResponse)) {
+            $response = [
+                $customResponse => true
+            ];
+        }
 
         // validate output
-        $objectOutput = $serializer->denormalize($response, $outputClass);
-        $this->validator->validate($objectOutput);
+        if ($outputClass) {
+            $objectOutput = $serializer->denormalize($response, $outputClass);
+            $this->validator->validate($objectOutput);
+        }
 
         return new Response($token, $response);
     }

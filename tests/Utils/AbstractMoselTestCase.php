@@ -6,6 +6,7 @@ namespace Bboxlab\Tests\Utils;
 
 use Bboxlab\Mosel\Authentication\Credentials\Credentials;
 use Bboxlab\Mosel\Client\MoselClient;
+use Bboxlab\Mosel\Configuration\Configuration;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractMoselTestCase extends TestCase

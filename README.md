@@ -1,6 +1,6 @@
 # Mosel, a sdk package for BT open APIs
 
-This package is still under construction (july 6th 2022).
+This package is still under construction (july 11th 2022).
 
 Open Api are described in the Bouygues Telecom Developer Portal: https://developer.bouyguestelecom.fr
 
@@ -39,7 +39,9 @@ $sdk = new Sdk('clientId', 'secretId', new ConfigurationCreator()->createApConfi
 When sdk is set correctly, you can use it to fetch secured open api
 
 ```php
-$response = $sdk->checkEmail('example@email.com')
+$ibanInput = new IbanInput();
+$ibanInput->setEmailAddress('example@email.com');
+$response = $sdk->checkEmail($ibanInput);
 ```
 
 A Mosel Response object is returned with the app credentials token created as an object and the response given by Bt Api as an array. 
