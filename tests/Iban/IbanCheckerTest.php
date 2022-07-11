@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Bboxlab\Tests\Email;
+namespace Bboxlab\Tests\Iban;
 
 
 use Bboxlab\Mosel\Client\MoselClient;
 use Bboxlab\Mosel\Configuration\Configuration;
 use Bboxlab\Mosel\Email\EmailInput;
+use Bboxlab\Mosel\Iban\IbanChecker;
+use Bboxlab\Mosel\Iban\IbanInput;
 use Bboxlab\Mosel\Validation\Validator;
 use Bboxlab\Tests\Utils\AbstractMoselTestCase;
-use Bboxlab\Mosel\Email\EmailChecker;
 
-class EmailCheckerTest extends AbstractMoselTestCase
+class IbanCheckerTest extends AbstractMoselTestCase
 {
     public function testCheckEmail()
     {
@@ -24,20 +25,17 @@ class EmailCheckerTest extends AbstractMoselTestCase
                     'access_token' => '123456',
                     'expires_in' => 3600
                 ],
-                [
-                    'contactEmailAddress' => false,
-                    'validEmailAddress' => true
-                ],
+                []
             );
 
-        $checker = new EmailChecker(new Validator(), $mockedClient);
+        $checker = new IbanChecker(new Validator(), $mockedClient);
 
         $btConfig = new Configuration();
         $btConfig->setOauthAppCredentialsUrl('http://oauth-fake-url.fr');
-        $btConfig->setEmailAddressUrl('http://emailcheck-fake-url.fr');
+        $btConfig->setIbanUrl('http://ibancheck-fake-url.fr');
 
-        $input = new EmailInput();
-        $input->setEmailAddress('eugenie.grandet@balzac.fr');
+        $input = new IbanInput();
+        $input->setIban('FR7630001007941234567890185');
 
         $result = $checker($input, $btConfig, $this->createCredentials());
 
@@ -48,7 +46,6 @@ class EmailCheckerTest extends AbstractMoselTestCase
         $this->assertIsString($result->getToken()->getCreatedAt());
 
         // test content
-        $this->assertEquals(false,$result->getContent()['contactEmailAddress']);
-        $this->assertEquals(true, $result->getContent()['validEmailAddress']);
+        $this->assertEquals(true,$result->getContent()['iban']);
     }
 }

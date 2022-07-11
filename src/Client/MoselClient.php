@@ -15,7 +15,7 @@ class MoselClient implements HttpClientInterface
     {
         $response = $this->client->request($method, $url, $options);
 
-        // if there is no response we return an empty array
+        // if there is no response we return an empty array, for example when it's a 204 response
         if (Response::HTTP_NO_CONTENT == $response->getStatusCode()) {
             return [];
         }

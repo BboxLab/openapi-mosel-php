@@ -1,6 +1,6 @@
 # Mosel, a sdk package for BT open APIs
 
-This package is still under construction (july 6th 2022).
+This package is still under construction (july 11th 2022).
 
 Open Api are described in the Bouygues Telecom Developer Portal: https://developer.bouyguestelecom.fr
 
