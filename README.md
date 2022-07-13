@@ -25,7 +25,7 @@ Then, create a Sdk Mosel Object with a credentials and a mosel configuration.
 
 ```php
 $configuration = new Configuration();
-...
+[...]
 $sdk = new Sdk('clientId', 'secretId', $configuration);
 
 ```
